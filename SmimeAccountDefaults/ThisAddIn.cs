@@ -10,11 +10,14 @@ namespace SmimeAccountDefaults
 {
     public partial class ThisAddIn
     {
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+        MailItemMonitor monitor;
+        void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            monitor = new MailItemMonitor(Application);
+            Application.ItemSend += monitor.OnItemSend;
         }
 
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
             // Note: Outlook no longer raises this event. If you have code that 
             //    must run when Outlook shuts down, see http://go.microsoft.com/fwlink/?LinkId=506785
