@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
 
 // ReSharper disable RedundantUsingDirective
 using System.Linq;
@@ -35,6 +36,7 @@ namespace GalaSoft.MvvmLight
     /// A base class for objects of which the properties must be observable.
     /// </summary>
     //// [ClassInfo(typeof(ViewModelBase))]
+    [DataContract]
     public class ObservableObject : INotifyPropertyChanged /*, INotifyPropertyChanging*/
     {
         /// <summary>

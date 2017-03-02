@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 using SmimeAccountDefaults.Properties;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
@@ -25,13 +26,18 @@ namespace SmimeAccountDefaults
             {
                 try
                 {
-                    var prefs = JsonConvert.DeserializeObject<List<AccountPreference>>(str);
-                    prefs.ForEach(p =>
-                                  {
-                                      // only update if the key exists because those are the known accounts
-                                      if (accts.Contains(p.SmtpAddress))
-                                          preferences[p.SmtpAddress] = p;
-                                  });
+                    var dcjs = new DataContractJsonSerializer(typeof(List<AccountPreference>));
+                    using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(str)))
+                    {
+                        var prefs = (List<AccountPreference>)dcjs.ReadObject(ms);
+                        prefs.ForEach(p =>
+                                      {
+                                          // only update if the key exists because those are the known accounts
+                                          if (accts.Contains(p.SmtpAddress))
+                                              preferences[p.SmtpAddress] = p;
+                                      });
+                    }
+                    
                 }
                 catch
                 {
@@ -69,9 +75,19 @@ namespace SmimeAccountDefaults
                 preferences[m] = new AccountPreference { SmtpAddress = m };
             }
 
-            var str = JsonConvert.SerializeObject(prefs);
-            Settings.Default.AccountPreferences = str;
-            Settings.Default.Save();
+            var dcjs = new DataContractJsonSerializer(typeof(IEnumerable<AccountPreference>));
+            using (var ms = new MemoryStream())
+            {
+                dcjs.WriteObject(ms, prefs);
+
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    Settings.Default.AccountPreferences = sr.ReadToEnd();
+                    Settings.Default.Save();
+                }
+                    
+            }
         }
 
         public AccountPreference this[string smtpAddress] 
