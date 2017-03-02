@@ -37,8 +37,7 @@
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.tab1 = this.Factory.CreateRibbonTab();
             this.securityGroup = this.Factory.CreateRibbonGroup();
-            this.toggleSuspendSigning = this.Factory.CreateRibbonToggleButton();
-            this.toggleSuspendEncryption = this.Factory.CreateRibbonToggleButton();
+            this.toggleSuspend = this.Factory.CreateRibbonToggleButton();
             this.tab1.SuspendLayout();
             this.securityGroup.SuspendLayout();
             this.SuspendLayout();
@@ -56,25 +55,19 @@
             // 
             ribbonDialogLauncherImpl1.ScreenTip = "Preferences";
             this.securityGroup.DialogLauncher = ribbonDialogLauncherImpl1;
-            this.securityGroup.Items.Add(this.toggleSuspendSigning);
-            this.securityGroup.Items.Add(this.toggleSuspendEncryption);
+            this.securityGroup.Items.Add(this.toggleSuspend);
             this.securityGroup.Label = "S/MIME";
             this.securityGroup.Name = "securityGroup";
             this.securityGroup.DialogLauncherClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.securityGroup_DialogLauncherClick);
             // 
-            // toggleSuspendSigning
+            // toggleSuspend
             // 
-            this.toggleSuspendSigning.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toggleSuspendSigning.Label = "Suspend Signing";
-            this.toggleSuspendSigning.Name = "toggleSuspendSigning";
-            this.toggleSuspendSigning.ShowImage = true;
-            // 
-            // toggleSuspendEncryption
-            // 
-            this.toggleSuspendEncryption.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.toggleSuspendEncryption.Label = "Suspend Encryption";
-            this.toggleSuspendEncryption.Name = "toggleSuspendEncryption";
-            this.toggleSuspendEncryption.ShowImage = true;
+            this.toggleSuspend.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.toggleSuspend.Label = "Suspend Account Defaults";
+            this.toggleSuspend.Name = "toggleSuspend";
+            this.toggleSuspend.OfficeImageId = "SignatureShow";
+            this.toggleSuspend.ShowImage = true;
+            this.toggleSuspend.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.toggleSuspend_Click);
             // 
             // SettingsRibbon
             // 
@@ -94,8 +87,7 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup securityGroup;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleSuspendSigning;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleSuspendEncryption;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton toggleSuspend;
     }
 
     partial class ThisRibbonCollection

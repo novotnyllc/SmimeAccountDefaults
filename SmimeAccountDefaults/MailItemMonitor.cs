@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using SmimeAccountDefaults.Properties;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace SmimeAccountDefaults
@@ -17,7 +17,7 @@ namespace SmimeAccountDefaults
             this.application = application;
         }
 
-        const string AddressToCheck = "";
+        const string AddressToCheck = "oren@novotny.org";
 
         const string PR_SECURITY_FLAGS = @"http://schemas.microsoft.com/mapi/proptag/0x6E010003";
         const string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
@@ -42,7 +42,7 @@ namespace SmimeAccountDefaults
             if (string.Equals(address, AddressToCheck, StringComparison.OrdinalIgnoreCase))
             {
                 // coming from the address we want to check. 
-                if (IsSuspended(address))
+                if(Settings.Default.IsSuspended)
                     return;
 
                 var secFlags = (int)item.PropertyAccessor.GetProperty(PR_SECURITY_FLAGS);
@@ -53,12 +53,7 @@ namespace SmimeAccountDefaults
             }
         }
 
-
-        bool IsSuspended(string address)
-        {
-            // check to see if we're enabled via a reg key
-            return false;
-        }
+        
 
     }
 }
