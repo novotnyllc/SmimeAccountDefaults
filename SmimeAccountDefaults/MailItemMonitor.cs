@@ -20,7 +20,6 @@ namespace SmimeAccountDefaults
         const string AddressToCheck = "oren@novotny.org";
 
         const string PR_SECURITY_FLAGS = @"http://schemas.microsoft.com/mapi/proptag/0x6E010003";
-        const string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
 
         const byte SECFLAG_ENCRYPTED = 0x01;
         const byte SECFLAG_SIGNED = 0x02;
