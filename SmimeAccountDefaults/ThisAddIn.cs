@@ -11,10 +11,14 @@ namespace SmimeAccountDefaults
     public partial class ThisAddIn
     {
         MailItemMonitor monitor;
+        SettingsRibbon ribbon;
         void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             monitor = new MailItemMonitor(Application);
             Application.ItemSend += monitor.OnItemSend;
+
+            ribbon = Globals.Ribbons.SettingsRibbon;
+     
         }
 
         void ThisAddIn_Shutdown(object sender, System.EventArgs e)
