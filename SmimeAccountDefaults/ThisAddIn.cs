@@ -18,7 +18,6 @@ namespace SmimeAccountDefaults
             Application.ItemSend += monitor.OnItemSend;
 
             ribbon = Globals.Ribbons.SettingsRibbon;
-     
         }
 
         void ThisAddIn_Shutdown(object sender, System.EventArgs e)

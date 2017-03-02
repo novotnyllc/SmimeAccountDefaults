@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:SmimeAccountDefaults"
              WindowStartupLocation="CenterOwner"
              Title="S/MIME Defaults Configuration"
-             mc:Ignorable="d" Height="300" Width="300">
-    <Grid>
-            
+             mc:Ignorable="d" Height="300" Width="500" ShowInTaskbar="False" ResizeMode="NoResize" >
+    <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
     </Grid>
 </Window>

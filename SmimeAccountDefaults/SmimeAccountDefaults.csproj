@@ -173,6 +173,7 @@
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MailItemMonitor.cs" />
+    <Compile Include="OfficeWin32Window.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

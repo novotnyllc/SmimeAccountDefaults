@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
 using Microsoft.Office.Tools.Ribbon;
 using SmimeAccountDefaults.Properties;
 
@@ -18,9 +19,16 @@ namespace SmimeAccountDefaults
         private void securityGroup_DialogLauncherClick(object sender, RibbonControlEventArgs e)
         {
             var configWindow = new ConfigurationWindow();
-            configWindow.ShowDialog();
             
+            var hwnd = new OfficeWin32Window(Globals.ThisAddIn.Application.ActiveWindow()).Handle;
+            var helper = new WindowInteropHelper(configWindow)
+            {
+                Owner = hwnd
+            };
+            configWindow.ShowDialog();
         }
+
+    
 
         private void toggleSuspend_Click(object sender, RibbonControlEventArgs e)
         {
