@@ -10,6 +10,9 @@ https://novotnyorgstorage.blob.core.windows.net/smimeaccountdefaults/setup.exe
 
 Run that and follow the prompts to install the AddIn. The AddIn will check for updates daily.
 
+# Requirements
+The add-in uses .NET 4.5.2 and is designed for Outlook 2013 and 2016. I've only tested with 2016 though so please report issues.
+
 # Configuration
 The addin won't do anything by default without configuration. You must first configure Outlook
 to use your Digital Certificate following the instructions [here](https://support.office.com/en-us/article/get-a-digital-id-0eaa0ab9-b8a2-4a7e-828b-9bded6370b7b#ID0EAABAAA=2016,_2013,_2010) where it says
