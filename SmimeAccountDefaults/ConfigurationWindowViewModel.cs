@@ -11,28 +11,29 @@ namespace SmimeAccountDefaults
 {
     class ConfigurationWindowViewModel : ObservableObject
     {
-        Outlook.Application application = Globals.ThisAddIn.Application;
         public ConfigurationWindowViewModel()
         {
-            foreach (Outlook.Account acct in application.Session.Accounts)
-            {
-                accounts.Add(acct.SmtpAddress);
-            }
-
-            selectedAccount = accounts.FirstOrDefault();
+            SelectedAccount = Accounts.FirstOrDefault();
         }
 
-        readonly List<string> accounts = new List<string>();
-        string selectedAccount;
-        public IEnumerable<string> Accounts => accounts;
+        AccountPreference selectedAccount;
 
-        public string SelectedAccount
+        // Create a copy for modifications
+        public IEnumerable<AccountPreference> Accounts { get; } = Globals.ThisAddIn.AccountPreferences.Preferences.Select(ap => ap.Clone()).ToList();
+
+        public AccountPreference SelectedAccount
         {
             get { return selectedAccount; }
             set
             {
                 Set(ref selectedAccount, value);
             }
+        }
+
+
+        public void Save()
+        {
+            Globals.ThisAddIn.AccountPreferences.SaveToSettings(Accounts);
         }
     }
 }

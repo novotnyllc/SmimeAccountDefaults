@@ -11,13 +11,13 @@ namespace SmimeAccountDefaults
     class MailItemMonitor
     {
         readonly Outlook.Application application;
+        readonly AccountPreferences preferences;
 
-        public MailItemMonitor(Outlook.Application application)
+        public MailItemMonitor()
         {
-            this.application = application;
+            application = Globals.ThisAddIn.Application;
+            preferences = Globals.ThisAddIn.AccountPreferences;
         }
-
-        const string AddressToCheck = "oren@novotny.org";
 
         const string PR_SECURITY_FLAGS = @"http://schemas.microsoft.com/mapi/proptag/0x6E010003";
 
@@ -34,22 +34,31 @@ namespace SmimeAccountDefaults
                         
         void OnMailItemSend(Outlook.MailItem item)
         {
+            // Don't do anything here if we're suspended
+            if (Settings.Default.IsSuspended)
+                return;
+
             var address = item.SendUsingAccount?.SmtpAddress ?? (application.Session.Accounts.Count > 0 ? 
                                                                  application.Session.Accounts[1].SmtpAddress : null);
-                    
 
-            if (string.Equals(address, AddressToCheck, StringComparison.OrdinalIgnoreCase))
+
+            // Get prefs for account
+            var pref = preferences[address];
+
+            var secFlags = (int)item.PropertyAccessor.GetProperty(PR_SECURITY_FLAGS);
+
+            if (pref.Sign)
             {
-                // coming from the address we want to check. 
-                if(Settings.Default.IsSuspended)
-                    return;
-
-                var secFlags = (int)item.PropertyAccessor.GetProperty(PR_SECURITY_FLAGS);
-
                 secFlags = secFlags | SECFLAG_SIGNED;
-
-                item.PropertyAccessor.SetProperty(PR_SECURITY_FLAGS, secFlags);   
             }
+
+            if (pref.Encrypt)
+            {
+                secFlags = secFlags | SECFLAG_ENCRYPTED;
+            }
+
+            item.PropertyAccessor.SetProperty(PR_SECURITY_FLAGS, secFlags);   
+            
         }
 
         

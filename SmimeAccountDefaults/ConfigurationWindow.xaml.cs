@@ -77,6 +77,15 @@ namespace SmimeAccountDefaults
             base.OnSourceInitialized(e);
         }
 
-    
+        private void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            ((ConfigurationWindowViewModel)DataContext).Save();
+            Close();
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

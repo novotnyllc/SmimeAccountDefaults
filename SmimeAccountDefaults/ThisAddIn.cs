@@ -14,16 +14,18 @@ namespace SmimeAccountDefaults
     {
         MailItemMonitor monitor;
         SettingsRibbon ribbon;
+
+        internal AccountPreferences AccountPreferences { get; } = new AccountPreferences();
+
         void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             DoUpgrade(Settings.Default);
+            AccountPreferences.LoadFromString(Settings.Default.AccountPreferences);
 
-            monitor = new MailItemMonitor(Application);
+            monitor = new MailItemMonitor();
             Application.ItemSend += monitor.OnItemSend;
 
             ribbon = Globals.Ribbons.SettingsRibbon;
-
-            
         }
 
         // the name of the setting that flags whether we
