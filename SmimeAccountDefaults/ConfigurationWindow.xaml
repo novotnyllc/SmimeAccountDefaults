@@ -6,7 +6,30 @@
              xmlns:local="clr-namespace:SmimeAccountDefaults"
              WindowStartupLocation="CenterOwner"
              Title="S/MIME Defaults Configuration"
-             mc:Ignorable="d" Height="300" Width="500" ShowInTaskbar="False" ResizeMode="NoResize" >
-    <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+             mc:Ignorable="d" Height="300" Width="500" ShowInTaskbar="False" ResizeMode="NoResize" 
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+    <Grid  Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox ItemsSource="{Binding Accounts}" 
+                 SelectedItem="{Binding SelectedAccount, Mode=TwoWay}"
+                 SelectionMode="Single">
+            
+        </ListBox>
+        
+        <Grid Grid.Row="1" ColumnSpan="2" HorizontalAlignment="Right" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Margin="0,0,5,0" Width="100">Ok</Button>
+            <Button Grid.Column="1" Width="100">Cancel</Button>
+        </Grid>
     </Grid>
 </Window>

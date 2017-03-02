@@ -77,10 +77,6 @@ namespace SmimeAccountDefaults
             base.OnSourceInitialized(e);
         }
 
-        void CloseClick(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-            Close();
-        }
+    
     }
 }

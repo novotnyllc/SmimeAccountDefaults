@@ -25,6 +25,7 @@ namespace SmimeAccountDefaults
             {
                 Owner = hwnd
             };
+            configWindow.DataContext = new ConfigurationWindowViewModel();
             configWindow.ShowDialog();
         }
 
