@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
@@ -35,5 +36,7 @@ namespace SmimeAccountDefaults
         {
             Globals.ThisAddIn.AccountPreferences.SaveToSettings(Accounts);
         }
+
+        public string Version => typeof(ConfigurationWindowViewModel).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
     }
 }
