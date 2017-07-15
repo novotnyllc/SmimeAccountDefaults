@@ -250,7 +250,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E06DA7AC4A820DFB61D54C411CF24B87EB3628FE</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A7F63C7233DF44C06306264F96E37EC2DC89DA3E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestTimestampUrl>http://timestamp.digicert.com</ManifestTimestampUrl>
