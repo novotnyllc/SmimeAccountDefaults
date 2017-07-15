@@ -38,9 +38,21 @@ namespace SmimeAccountDefaults
             if (Settings.Default.IsSuspended)
                 return;
 
-            var address = item.SendUsingAccount?.SmtpAddress ?? (application.Session.Accounts.Count > 0 ? 
-                                                                 application.Session.Accounts[1].SmtpAddress : null);
+            // if drafts, we might need to repopulate the sending account
 
+            var address = item.SendUsingAccount?.SmtpAddress;
+            if(address == null)
+            {
+                // look it up
+                var userAddress = item.SenderEmailAddress;
+                var userAccount = application.Session.Accounts.OfType<Outlook.Account>()
+                                                              .FirstOrDefault(acct => acct.CurrentUser.Address == userAddress);
+                address = userAccount?.SmtpAddress;
+                if (userAccount != null)
+                    item.SendUsingAccount = userAccount;
+            }
+            if (address == null)
+                return; // can't find it
 
             // Get prefs for account
             var pref = preferences[address];
