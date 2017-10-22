@@ -1,0 +1,4 @@
+setup.exe
+SmimeAccountDefaults.dll
+SmimeAccountDefaults.dll.manifest
+SmimeAccountDefaults.vsto
