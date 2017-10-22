@@ -38,19 +38,15 @@ namespace SmimeAccountDefaults
             if (Settings.Default.IsSuspended)
                 return;
 
-            // if drafts, we might need to repopulate the sending account
-
-            var address = item.SendUsingAccount?.SmtpAddress;
-            if(address == null)
-            {
-                // look it up
-                var userAddress = item.SenderEmailAddress;
-                var userAccount = application.Session.Accounts.OfType<Outlook.Account>()
-                                                              .FirstOrDefault(acct => acct.CurrentUser.Address == userAddress);
-                address = userAccount?.SmtpAddress;
-                if (userAccount != null)
-                    item.SendUsingAccount = userAccount;
-            }
+            // Always look up & set the account object as it may get nulled out if auto-saved or in drafts
+            // look up account based on sender address in the message
+            var userAddress = item.SenderEmailAddress;
+            var userAccount = application.Session.Accounts.OfType<Outlook.Account>()
+                                                            .FirstOrDefault(acct => acct.CurrentUser.Address == userAddress);
+            var address = userAccount?.SmtpAddress;
+            if (userAccount != null)
+                item.SendUsingAccount = userAccount;
+            
             if (address == null)
                 return; // can't find it
 
@@ -72,10 +68,5 @@ namespace SmimeAccountDefaults
             item.PropertyAccessor.SetProperty(PR_SECURITY_FLAGS, secFlags);   
             
         }
-
-        
-
     }
 }
-
-
