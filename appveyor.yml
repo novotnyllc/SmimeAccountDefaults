@@ -20,6 +20,7 @@ before_build:
     $doc | % { $_.Replace("1.0.2.3", "$ver") } | Set-Content ".\SmimeAccountDefaults\SmimeAccountDefaults.csproj"
     
 build_script:
+- ps: msbuild .\SmimeAccountDefaults\SmimeAccountDefaults.csproj /p:Configuration=Release
 - ps: msbuild /t:publish .\SmimeAccountDefaults\SmimeAccountDefaults.csproj /p:Configuration=Release
 after_build:
 - cmd: 7z a SmimeAccountDefaults.clickonce SmimeAccountDefaults\bin\Release\app.publish\
