@@ -1,4 +1,4 @@
 setup.exe
-SmimeAccountDefaults.dll
+SmimeAccountDefaults.dll.deploy
 SmimeAccountDefaults.dll.manifest
 SmimeAccountDefaults.vsto
