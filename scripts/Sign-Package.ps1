@@ -20,9 +20,6 @@ $fileList = "$currentDirectory\filelist.txt"
 
 $appPath = "$currentDirectory\..\packages\SignClient\tools\netcoreapp2.0\SignClient.dll"
 
-$nupgks = ls $currentDirectory\..\*.nupkg | Select -ExpandProperty FullName
-
-
 Write-Host "Submitting $filePath for signing"
 
 dotnet $appPath 'sign' -c $appSettings -i $filePath -f $fileList -r $signClientUser -s $signClientSecret -n 'SmimeAccountDefaults' -d 'SmimeAccountDefaults' -u 'https://github.com/onovotny/SmimeAccountDefaults' 
