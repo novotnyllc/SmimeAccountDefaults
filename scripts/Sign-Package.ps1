@@ -1,13 +1,11 @@
 Param(
-	[string]$signClientSecret,
-	[string]$signClientUser,
 	[string]$filePath
 )
 
 $currentDirectory = split-path $MyInvocation.MyCommand.Definition
 
 # See if we have the ClientSecret available
-if([string]::IsNullOrEmpty($signClientSecret)){
+if([string]::IsNullOrEmpty($Env:SignClientSecret)){
 	Write-Host "Client Secret not found, not signing packages"
 	return;
 }
@@ -22,7 +20,7 @@ $appPath = "$currentDirectory\..\packages\SignClient\tools\netcoreapp2.0\SignCli
 
 Write-Host "Submitting $filePath for signing"
 
-dotnet $appPath 'sign' -c $appSettings -i $filePath -f $fileList -r $signClientUser -s $signClientSecret -n 'SmimeAccountDefaults' -d 'SmimeAccountDefaults' -u 'https://github.com/onovotny/SmimeAccountDefaults' 
+dotnet $appPath 'sign' -c $appSettings -i $Env:FileToSign -f $fileList -r $Env:SignClientUser -s $Env:SignClientSecret -n 'SmimeAccountDefaults' -d 'SmimeAccountDefaults' -u 'https://github.com/onovotny/SmimeAccountDefaults' 
 
 Write-Host "Finished signing $filePath"
 

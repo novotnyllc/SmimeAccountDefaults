@@ -1,0 +1,65 @@
+queue:
+  name: Hosted VS2017
+  demands: 
+    - msbuild
+    - visualstudio
+    - DotNetFramework
+    
+variables: 
+  BuildConfiguration: Release
+  BuildPlatform: Any CPU
+  
+steps:
+- task: NuGetToolInstaller@0
+  inputs:
+    versionSpec: 4.5.0
+
+- task: VSBuild@1
+  inputs:
+    solution: SmimeAccountDefaults.sln
+    msbuildArgs: /t:restore
+    configuration: $(BuildConfiguration)
+  displayName: NuGet Restore
+
+- powershell: |    
+    # version    
+    nuget install NerdBank.GitVersioning -Version 2.0.41 -SolutionDir $(Build.SourcesDirectory) -Verbosity quiet -ExcludeVersion
+    
+    $vers = & $(Build.SourcesDirectory)\packages\nerdbank.gitversioning\tools\Get-Version.ps1
+    $ver = $vers.Version
+
+    # Update the ApplicationVersion in the file
+    $doc = Get-Content ".\SmimeAccountDefaults\SmimeAccountDefaults.csproj"
+    $doc | % { $_.Replace("1.0.2.3", "$ver") } | Set-Content ".\SmimeAccountDefaults\SmimeAccountDefaults.csproj"
+  displayName: Update version
+
+- task: VSBuild@1
+  inputs:
+    solution: SmimeAccountDefaults.sln
+    msbuildArgs: /t:publish
+    platform: $(BuildPlatform)
+    configuration: $(BuildConfiguration)
+  displayName: Build & Publish Solution
+    
+- task: ArchiveFiles@1
+  inputs:
+    rootFolder: SmimeAccountDefaults\bin\$(BuildConfiguration)\app.publish
+    includeRootFolder: false
+    archiveFile: $(Build.ArtifactStagingDirectory)/SmimeAccountDefaults.clickonce
+  displayName: Create ClickOnce archive
+
+- task: PowerShell@2
+  displayName: Authenticode Sign artifacts
+  inputs:
+    filePath: scripts/Sign-Package.ps1
+  env:
+    SignClientUser: $(SignClientUser)
+    SignClientSecret: $(SignClientSecret)
+    FileToSign: $(Build.ArtifactStagingDirectory)/SmimeAccountDefaults.clickonce
+   
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: $(build.artifactstagingdirectory)
+    ArtifactName: drop
+    ArtifactType: Container
